@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1769e0">
+  <title>RiskGuard AI | E-Commerce Protection</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- OCR library for screenshot text extraction -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <a href="#" class="brand">
+    <span class="brand-icon">🛡️</span>
+    <div>
+      <h1>RiskGuard AI</h1>
+      <p>E-Commerce Risk, Fraud & Customer Support</p>
+    </div>
+  </a>
+  <span class="prototype">PROJECT PROTOTYPE</span>
+</header>
+
+<main class="container">
+  <section class="welcome">
+    <p class="eyebrow">SMART E-COMMERCE PROTECTION</p>
+    <h2>Shop safer with <span>RiskGuard AI</span></h2>
+    <p>Detect suspicious links, analyze delivery messages, assess online risks, and manage customer complaints in one place.</p>
+  </section>
+
+  <section class="stats-grid">
+    <article class="stat-card">
+      <span>🔗</span><p>Links checked</p><strong id="linksChecked">0</strong>
+    </article>
+    <article class="stat-card">
+      <span>💬</span><p>Messages analyzed</p><strong id="messagesChecked">0</strong>
+    </article>
+    <article class="stat-card">
+      <span>⚠️</span><p>High-risk results</p><strong id="highRiskCount">0</strong>
+    </article>
+    <article class="stat-card">
+      <span>📁</span><p>Complaints filed</p><strong id="complaintsCount">0</strong>
+    </article>
+  </section>
+
+  <!-- MODULE 1 -->
+  <section class="panel module-section" id="linkModule">
+    <div class="module-heading">
+      <span class="module-number">MODULE 1</span>
+      <h2>🔗 Phishing Detection & URL Analysis</h2>
+      <p>Inspect a website or order link for suspicious patterns before opening it.</p>
+    </div>
+
+    <div class="form-grid">
+      <div>
+        <label for="linkSource">Where did you receive the link?</label>
+        <select id="linkSource">
+          <option>WhatsApp</option><option>Instagram</option>
+          <option>Facebook</option><option>Telegram</option>
+          <option>Email</option><option>SMS</option><option>Other</option>
+        </select>
+      </div>
+      <div>
+        <label for="websiteLink">Website or order link</label>
+        <input id="websiteLink" type="text" placeholder="https://example.com/order">
+      </div>
+    </div>
+
+    <div class="button-row">
+      <button id="checkLinkBtn" class="btn btn-primary">Analyze Link</button>
+      <button id="demoLinkBtn" class="btn btn-secondary">Try Demo</button>
+    </div>
+    <div id="linkResult" class="result-box hidden" aria-live="polite"></div>
+  </section>
+
+  <!-- MODULE 2 -->
+  <section class="panel module-section" id="screenshotModule">
+    <div class="module-heading">
+      <span class="module-number">MODULE 2</span>
+      <h2>🖼️ Screenshot Analysis & Delivery Scam Detection</h2>
+      <p>Upload a screenshot of an SMS, email, courier notification, or suspicious message. OCR extracts the text for analysis.</p>
+    </div>
+
+    <label for="screenshotInput">Upload screenshot</label>
+    <input id="screenshotInput" type="file" accept="image/png,image/jpeg,image/webp,image/bmp">
+    <p class="notice">Supported image formats: PNG, JPG, WEBP and BMP. The OCR library loads from a CDN, so internet access is required for first use.</p>
+
+    <div id="imagePreviewWrap" class="preview-wrap hidden">
+      <img id="imagePreview" alt="Screenshot preview">
+    </div>
+
+    <div class="button-row">
+      <button id="extractTextBtn" class="btn btn-primary">Extract Text with OCR</button>
+      <button id="demoScreenshotBtn" class="btn btn-secondary">Load Demo Message</button>
+    </div>
+
+    <div id="ocrProgress" class="progress-message hidden" role="status"></div>
+
+    <label for="extractedText">Extracted message (editable)</label>
+    <textarea id="extractedText" rows="6" placeholder="OCR text will appear here. You can also paste a message manually."></textarea>
+
+    <div class="button-row">
+      <button id="analyzeScreenshotBtn" class="btn btn-primary">Analyze Message & Links</button>
+    </div>
+
+    <div id="screenshotResult" class="result-box hidden" aria-live="polite"></div>
+    <div id="extractedLinks" class="result-box hidden"></div>
+  </section>
+
+  <!-- COMBINED ASSESSMENT -->
+  <section class="flow-panel" id="combinedAssessment">
+    <span class="module-number">COMBINED ANALYSIS</span>
+    <h2>Overall Risk Assessment</h2>
+    <p class="muted">Combines the latest URL and message results when available.</p>
+    <div class="combined-grid">
+      <div class="combined-item">
+        <span>Latest URL score</span>
+        <strong id="combinedUrlScore">—</strong>
+      </div>
+      <div class="combined-item">
+        <span>Latest message score</span>
+        <strong id="combinedMessageScore">—</strong>
+      </div>
+      <div class="combined-item">
+        <span>Overall risk</span>
+        <strong id="combinedRisk">Not assessed</strong>
+      </div>
+    </div>
+    <p id="combinedExplanation" class="result-recommendation">
+      Analyze a link or message to generate a combined assessment.
+    </p>
+  </section>
+
+  <!-- MODULE 3 -->
+  <section class="support-section" id="complaintModule">
+    <div class="support-heading">
+      <div>
+        <span class="module-number">MODULE 3</span>
+        <h2>🤝 Complaint Management & Case Tracking</h2>
+        <p>Register a complaint, attach evidence, receive suggested next steps, and track the case status.</p>
+      </div>
+      <span class="prototype">LOCAL DEMO</span>
+    </div>
+
+    <form id="complaintForm" class="complaint-form">
+      <div class="form-grid">
+        <div>
+          <label for="complaintName">Your name</label>
+          <input id="complaintName" maxlength="80" placeholder="Enter your name" required>
+        </div>
+        <div>
+          <label for="complaintOrder">Order ID (optional)</label>
+          <input id="complaintOrder" maxlength="80" placeholder="e.g. ORD12345">
+        </div>
+        <div>
+          <label for="complaintCategory">Complaint category</label>
+          <select id="complaintCategory" required>
+            <option value="Damaged product">Damaged product</option>
+            <option value="Defective product">Defective product</option>
+            <option value="Wrong product">Wrong product</option>
+            <option value="Missing item">Missing item</option>
+            <option value="Delivery delay">Delivery delay</option>
+            <option value="Refund or replacement">Refund or replacement</option>
+            <option value="Suspected fraud">Suspected fraud</option>
+            <option value="Payment issue">Payment issue</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label for="complaintPriority">Priority</label>
+          <select id="complaintPriority">
+            <option value="Normal">Normal</option>
+            <option value="High">High</option>
+            <option value="Urgent">Urgent</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="complaintDescription">Describe the issue</label>
+      <textarea id="complaintDescription" rows="4" maxlength="2000" placeholder="Explain what happened and what resolution you need..." required></textarea>
+
+      <label for="complaintEvidence">Evidence files (optional)</label>
+      <input id="complaintEvidence" type="file" multiple accept="image/*,.pdf,.doc,.docx">
+      <p class="notice">This demo records evidence filenames only. Files are not uploaded to a server.</p>
+
+      <button class="btn btn-primary" type="submit">Submit Complaint & Create Case</button>
+    </form>
+
+    <div id="complaintFeedback" class="result-box hidden" aria-live="polite"></div>
+
+    <div class="case-heading">
+      <div>
+        <h3>📋 My Complaint Cases</h3>
+        <p class="muted">Your locally saved cases appear below.</p>
+      </div>
+      <button id="exportCasesBtn" class="btn btn-secondary" type="button">Export Cases</button>
+    </div>
+
+    <div id="caseList" class="case-list">
+      <p class="empty-state">No cases registered yet. Submit a complaint to create your first case.</p>
+    </div>
+  </section>
+
+  <!-- EXISTING CUSTOMER SUPPORT CHATBOT -->
+  <section class="support-section" id="postDeliverySupport">
+    <div class="support-heading">
+      <div>
+        <span class="module-number">CUSTOMER SUPPORT</span>
+        <h2>💬 RiskGuard Support Assistant</h2>
+        <p>Get guidance for damaged products, incorrect orders, refunds, delivery delays, and suspected scams.</p>
+      </div>
+      <span class="prototype">RULE-BASED DEMO</span>
+    </div>
+
+    <div class="support-layout">
+      <aside class="topic-panel">
+        <h3>Choose your issue</h3>
+        <button class="topic-btn" data-prompt="My product arrived damaged.">📦 Product arrived damaged</button>
+        <button class="topic-btn" data-prompt="My product is defective and does not work.">🔧 Product is defective</button>
+        <button class="topic-btn" data-prompt="I received the wrong product.">🔄 Wrong product received</button>
+        <button class="topic-btn" data-prompt="An item or accessory is missing from my order.">🧩 Missing item</button>
+        <button class="topic-btn" data-prompt="The seller is not responding to my messages.">🏪 Seller not responding</button>
+        <button class="topic-btn" data-prompt="I need a refund or replacement.">💳 Refund or replacement</button>
+        <button class="topic-btn" data-prompt="My order has not arrived yet.">🚚 Delivery problem</button>
+        <div class="privacy-note">
+          <strong>🔒 Stay safe</strong>
+          <p>Never share your OTP, password, banking PIN, or full card details in this chat.</p>
+        </div>
+      </aside>
+
+      <div class="chat-panel">
+        <div class="chat-header">
+          <div class="bot-avatar">🛡️</div>
+          <div><strong>RiskGuard Assistant</strong><p><span class="online-dot"></span> Ready to help</p></div>
+          <button id="resetChatBtn" class="reset-btn" type="button">New chat ↻</button>
+        </div>
+
+        <div class="chat-notice">This chatbot uses local JavaScript rules. It does not contact sellers or process refunds.</div>
+
+        <div id="chatMessages" class="chat-messages" role="log" aria-live="polite">
+          <div class="chat-row bot">
+            <div class="chat-avatar">🛡️</div>
+            <div class="chat-bubble">Hi! Tell me what happened with your order, and I'll suggest practical next steps.</div>
+          </div>
+        </div>
+
+        <div class="quick-replies">
+          <button data-prompt="My product arrived damaged.">Damaged product</button>
+          <button data-prompt="The seller is not responding.">Seller not responding</button>
+          <button data-prompt="I want a refund or replacement.">Refund / replacement</button>
+        </div>
+
+        <form id="chatForm" class="chat-form">
+          <label for="chatInput" class="visually-hidden">Describe your issue</label>
+          <textarea id="chatInput" rows="2" maxlength="1200" placeholder="Describe your issue..." required></textarea>
+          <button type="submit" class="btn btn-primary">Send ➤</button>
+        </form>
+
+        <div class="chat-footer">
+          <span>Rule-based prototype</span>
+          <button id="downloadChatBtn" type="button">Download transcript</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="flow-panel">
+    <span class="module-number">SYSTEM WORKFLOW</span>
+    <h2>How RiskGuard AI works</h2>
+    <div class="flow-grid">
+      <div><span>1</span><strong>Input</strong><p>URL, screenshot, or complaint</p></div>
+      <div><span>2</span><strong>Analysis</strong><p>Rules, OCR, and text checks</p></div>
+      <div><span>3</span><strong>Risk assessment</strong><p>Risk score and explanation</p></div>
+      <div><span>4</span><strong>Guidance</strong><p>Actions and complaint tracking</p></div>
+    </div>
+  </section>
+
+  <section class="disclaimer">
+    <strong>⚠️ Prototype disclaimer</strong>
+    <p>RiskGuard AI is a demonstration, not a verified fraud-detection service. URL and message scores use heuristic rules. OCR may make mistakes. Complaint records are stored in this browser and are not sent to a retailer or administrator. Do not upload sensitive documents or enter passwords, OTPs, or banking details.</p>
+  </section>
+</main>
+
+<footer>
+  <p>© 2026 RiskGuard AI | E-Commerce Risk, Fraud & Customer Support System</p>
+</footer>
+</body>
+</html>
